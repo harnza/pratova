@@ -170,7 +170,7 @@
 </section>
 
 <!-- For landscapers -->
-<section id="pros" class="py-20 bg-emerald-900 text-white">
+<section id="pros" class="py-20 bg-emerald-900 text-white scroll-mt-20">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
     <div>
       <span class="inline-block bg-amber-400 text-emerald-950 text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">For landscapers</span>
@@ -354,7 +354,7 @@
           btn.style.pointerEvents = '';
         }
       });
-    }).observe(formSection);
+    }, { threshold: 0.3 }).observe(formSection);
   })();
 
   handleNetlifyForm(
