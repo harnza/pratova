@@ -214,7 +214,7 @@
   <div class="max-w-3xl mx-auto px-6 text-center">
     <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Get matched in 24 hours.</h2>
     <p class="mt-4 text-emerald-50 text-lg">Free, no obligation. Cancel any quote anytime.</p>
-    <form name="homeowner-waitlist" method="POST" action="/" data-netlify="true" class="mt-8 flex flex-col gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch.');">
+    <form name="homeowner-waitlist" method="POST" action="/" data-netlify="true" class="mt-8 flex flex-col gap-3 max-w-md mx-auto">
       <input type="hidden" name="form-name" value="homeowner-waitlist" />
       <input type="hidden" name="service" id="service-input" value="" />
       <input type="text" name="name" placeholder="Your full name" required class="w-full px-4 py-3.5 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300" />
@@ -225,6 +225,17 @@
         <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold px-6 py-3.5 rounded-lg">Start →</button>
       </div>
     </form>
+    <div id="thank-you-state" style="display:none">
+      <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Thanks! You're on the list.</h2>
+      <p class="mt-4 text-emerald-50 text-lg">We'll match you with 3 vetted local pros and email you within 24 hours.</p>
+      <p class="mt-3 text-emerald-200 text-sm">Keep an eye on your inbox at the email you provided.</p>
+    </div>
+    <p id="form-error" style="display:none" class="mt-4 text-amber-300 text-sm font-medium">Something went wrong — please check your connection and try again.</p>
   </div>
 </section>
 
@@ -257,12 +268,41 @@
 
 
 <script>
+  // Service card click → populate hidden service input before scrolling to CTA
   document.querySelectorAll('[data-service]').forEach(function(card) {
     card.addEventListener('click', function() {
       var input = document.getElementById('service-input');
       if (input) input.value = card.dataset.service;
     });
   });
+
+  // Netlify form: fetch submission to avoid page reload / resubmit-on-refresh
+  var form = document.querySelector('form[name="homeowner-waitlist"]');
+  var thankYou = document.getElementById('thank-you-state');
+  var formError = document.getElementById('form-error');
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      formError.style.display = 'none';
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      })
+      .then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          thankYou.style.display = 'block';
+        } else {
+          formError.style.display = 'block';
+        }
+      })
+      .catch(function() {
+        formError.style.display = 'block';
+      });
+    });
+  }
 </script>
 </body>
 </html>
