@@ -214,9 +214,10 @@
   <div class="max-w-3xl mx-auto px-6 text-center">
     <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Get matched in 24 hours.</h2>
     <p class="mt-4 text-emerald-50 text-lg">Free, no obligation. Cancel any quote anytime.</p>
-    <form class="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Thanks! We'll be in touch.');">
+    <form name="homeowner-waitlist" method="POST" action="/" data-netlify="true" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch.');">
+      <input type="hidden" name="form-name" value="homeowner-waitlist" />
       <input type="hidden" name="service" id="service-input" value="" />
-      <input type="text" placeholder="Your ZIP code" class="flex-1 px-4 py-3.5 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300" />
+      <input type="text" name="zip" placeholder="Your ZIP code" class="flex-1 px-4 py-3.5 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300" />
       <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold px-6 py-3.5 rounded-lg">Start →</button>
     </form>
   </div>
